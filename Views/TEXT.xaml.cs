@@ -3,6 +3,7 @@
 using TestUwp.ViewModels;
 
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace TestUwp.Views
 {
@@ -12,8 +13,16 @@ namespace TestUwp.Views
 
         public TEXTPage()
         {
-            InitializeComponent();
-            ViewModel.Initialize(webView);
+            this.InitializeComponent();
+            
+
         }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            Browser.Navigate(new Uri("ms-appx-web:///local/Text.html"));
+        }
+
     }
 }
+

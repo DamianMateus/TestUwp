@@ -29,7 +29,6 @@
             <winui:NavigationViewItem x:Uid="Shell_TREE" Icon="Document" helpers:NavHelper.NavigateTo="views:TREE" Content="TREE"/>
             <winui:NavigationViewItem x:Uid="Shell_PDFPage" Icon="Document" helpers:NavHelper.NavigateTo="views:PDFPage" Content="PDF"/>
             <winui:NavigationViewItem x:Uid="Shell_TEXT" Icon="Document" helpers:NavHelper.NavigateTo="views:TEXTPage" Content="TEXT"/>
-            <winui:NavigationViewItem x:Uid="Shell_Tutorial" Icon="Document" helpers:NavHelper.NavigateTo="views:TutorialPage" Content="TUTORIAL" />
         </winui:NavigationView.MenuItems>
         <i:Interaction.Behaviors>
             <behaviors:NavigationViewHeaderBehavior
