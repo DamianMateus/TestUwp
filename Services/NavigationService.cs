@@ -61,7 +61,6 @@ namespace TestUwp.Services
                 throw new ArgumentException($"Invalid pageType '{pageType}', please provide a valid pageType.", nameof(pageType));
             }
 
-            // Don't open the same page multiple times
             if (Frame.Content?.GetType() != pageType || (parameter != null && !parameter.Equals(_lastParamUsed)))
             {
                 var navigationResult = Frame.Navigate(pageType, parameter, infoOverride);
