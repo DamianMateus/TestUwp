@@ -1,30 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Data.Pdf;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
-
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
+using RestSharp;
 
 namespace TestUwp.Views
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class PDFPage : Page
     {
         public ObservableCollection<BitmapImage> PdfPages
@@ -32,6 +18,7 @@ namespace TestUwp.Views
             get;
             set;
         } = new ObservableCollection<BitmapImage>();
+
 
         public PDFPage()
         {
@@ -41,22 +28,18 @@ namespace TestUwp.Views
 
         public async void OpenLocal()
         {
-            StorageFile storageFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/dummy.pdf"));
-            PdfDocument pdfDoc = await PdfDocument.LoadFromFileAsync(storageFile);
-
+            var client = new RestClient("https://gotocon.com/dl/goto-aar-2014/slides/JamesMontemagno_XamarinFormsNativeIOSAndroidAndWindowsPhoneAppsFromONECCodebase.pdf");
+            client.Timeout = -1;
+            var request = new RestRequest(Method.GET);
+            byte[] response = client.DownloadData(request);
+            var path = ApplicationData.Current.LocalFolder.Path;
+            path = Path.Combine(path + "\\Pdf.pdf");
+            File.WriteAllBytes(path, response);
+            StorageFile f = await
+            StorageFile.GetFileFromPathAsync(path);
+            PdfDocument pdfDoc = await PdfDocument.LoadFromFileAsync(f);
             Load(pdfDoc);
-        }
 
-        public async void OpenRemote()
-        {
-            System.Net.Http.HttpClient client = new System.Net.Http.HttpClient();
-            var stream = await client.GetStreamAsync("http://www.adobe.com/content/dam/Adobe/en/accessibility/products/acrobat/pdfs/acrobat-x-accessible-pdf-from-word.pdf");
-            var memStream = new MemoryStream();
-            await stream.CopyToAsync(memStream);
-            memStream.Position = 0;
-            PdfDocument pdfDoc = await PdfDocument.LoadFromStreamAsync(memStream.AsRandomAccessStream());
-           
-            Load(pdfDoc);
         }
 
         async void Load(PdfDocument pdfDoc)
@@ -79,14 +62,9 @@ namespace TestUwp.Views
             }
         }
 
-        private void LocalPDF_Tapped(object sender, TappedRoutedEventArgs e)
+        private void LocalPDF_Open(object sender, TappedRoutedEventArgs e)
         {
             OpenLocal();
-        }
-
-        private void RemotePDF_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            OpenRemote();
         }
     }
 }
