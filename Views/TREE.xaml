@@ -1,0 +1,229 @@
+﻿<Page
+    x:Class="TestUwp.Views.TREE"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    xmlns:model="using:TestUwp.Models"
+    xmlns:behaviors="using:TestUwp.Behaviors"
+    xmlns:templateSelectors="using:TestUwp.TemplateSelectors"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    Style="{StaticResource PageStyle}"
+    behaviors:NavigationViewHeaderBehavior.HeaderMode="Never"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <DataTemplate x:Key="ProfessorTemplate" x:DataType="model:Professor">
+            <winui:TreeViewItem
+                AutomationProperties.Name="{x:Bind ProfessorName}"
+                ItemsSource="{x:Bind Assignatures}" IsExpanded="False">
+                <TextBlock Text="{x:Bind ProfessorName}" Margin="{StaticResource XXSmallTopRightBottomMargin}" />
+            </winui:TreeViewItem>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ProfessorContentTemplate" x:DataType="model:Professor">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        Text="Professor ID"
+                        Style="{StaticResource TitleTextBlockStyle}" />
+                    <TextBlock
+                        Text="{x:Bind ProfessorID}"
+                        Margin="{StaticResource SmallLeftMargin}"
+                        Style="{StaticResource TitleTextBlockStyle}" />
+                </StackPanel>
+                <TextBlock
+                    Margin="{StaticResource MediumTopMargin}"
+                    Style="{StaticResource DetailSubTitleStyle}"
+                    Text="Professor name" />
+                <TextBlock
+                    Style="{StaticResource DetailBodyBaseMediumStyle}"
+                    Text="{x:Bind ProfessorName}" />
+
+                <TextBlock
+                    Margin="{StaticResource XSmallTopMargin}"
+                    Style="{StaticResource DetailSubTitleStyle}"
+                    Text="Professor Last Name" />
+                <TextBlock
+                    Style="{StaticResource DetailBodyBaseMediumStyle}"
+                    Text="{x:Bind ProfessorLastName}" />
+                <TextBlock
+                    Margin="{StaticResource XSmallTopMargin}"
+                    Style="{StaticResource DetailSubTitleStyle}"
+                    Text="City" />
+                <TextBlock
+                    Style="{StaticResource DetailBodyBaseMediumStyle}"
+                    Text="{x:Bind City}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="AssignatureTemplate" x:DataType="model:Assignature">
+            <winui:TreeViewItem
+                AutomationProperties.Name="{x:Bind AssignatureID}"
+                ItemsSource="{x:Bind Students}" IsExpanded="False">
+                <TextBlock Text="{x:Bind ShortDescription}" Margin="{StaticResource XXSmallTopRightBottomMargin}" />
+            </winui:TreeViewItem>
+        </DataTemplate>
+
+        <DataTemplate x:Key="AssignatureContentTemplate" x:DataType="model:Assignature">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        Text="Assignature ID"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource TitleTextBlockStyle}" />
+                    <TextBlock
+                        Text="{x:Bind AssignatureID}"
+                        VerticalAlignment="Center"
+                        Margin="{StaticResource SmallLeftMargin}"
+                        Style="{StaticResource TitleTextBlockStyle}" />
+                </StackPanel>
+                <TextBlock
+                    Margin="{StaticResource MediumTopMargin}"
+                    Style="{StaticResource DetailSubTitleStyle}"
+                    Text="Assignature Name" />
+                <TextBlock
+                    Style="{StaticResource DetailBodyBaseMediumStyle}"
+                    Text="{x:Bind AssignatureName}" />
+                <TextBlock
+                    Margin="{StaticResource XSmallTopMargin}"
+                    Style="{StaticResource DetailSubTitleStyle}"
+                    Text="Status" />
+                <TextBlock
+                    Style="{StaticResource DetailBodyBaseMediumStyle}"
+                    Text="{x:Bind Status}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="StudentsTemplate" x:DataType="model:Students">
+            <winui:TreeViewItem
+                AutomationProperties.Name="{x:Bind StudentsName}">
+                <TextBlock Text="{x:Bind ShortDescription}" TextWrapping="Wrap" Margin="{StaticResource XXSmallTopRightBottomMargin}" />
+            </winui:TreeViewItem>
+        </DataTemplate>
+
+        <DataTemplate x:Key="StudentsContentTemplate" x:DataType="model:Students">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        Text="Student ID"
+                        Style="{StaticResource TitleTextBlockStyle}" />
+                    <TextBlock
+                        Text="{x:Bind StudentsID}"
+                        Margin="{StaticResource SmallLeftMargin}"
+                        Style="{StaticResource TitleTextBlockStyle}" />
+                </StackPanel>
+                <TextBlock
+                    Margin="{StaticResource MediumTopMargin}"
+                    Style="{StaticResource DetailSubTitleStyle}"
+                    Text="Students Name" />
+                <TextBlock
+                    Style="{StaticResource DetailBodyBaseMediumStyle}"
+                    Text="{x:Bind StudentsName}" />
+                <TextBlock
+                    Margin="{StaticResource MediumTopMargin}"
+                    Style="{StaticResource DetailSubTitleStyle}"
+                    Text="Students City" />
+                <TextBlock
+                    Style="{StaticResource DetailBodyBaseMediumStyle}"
+                    Text="{x:Bind StudentsCity}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <templateSelectors:SampleDataTemplateSelector x:Key="TreeViewTemplateSelector"
+            ProfessorTemplate="{StaticResource ProfessorTemplate}"
+            AssignatureTemplate="{StaticResource AssignatureTemplate}"
+            StudentsTemplate="{StaticResource StudentsTemplate}" />
+
+        <templateSelectors:SampleDataTemplateSelector x:Key="ContentTemplateSelector"
+            ProfessorTemplate="{StaticResource ProfessorContentTemplate}"
+            AssignatureTemplate="{StaticResource AssignatureContentTemplate}"
+            StudentsTemplate="{StaticResource StudentsContentTemplate}" />
+
+    </Page.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="treeViewColumn" MinWidth="150" MaxWidth="350" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="641" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="header.Margin" Value="0,0,0,0" />
+                        <Setter Target="treeViewColumn.Width" Value="350" />
+                        <Setter Target="treeViewColumn.MaxWidth" Value="500" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid
+            Background="{ThemeResource  SystemChromeMediumLowColor}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid
+                Margin="80,0,0,0"
+                x:Name="header">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    x:Uid="TREETitle"
+                    Margin="{StaticResource SmallLeftMargin}"
+                    Style="{StaticResource ListTitleStyle}"
+                    VerticalAlignment="Center" />
+                <Button
+                    Grid.Column="1"
+                    x:Uid="TreeView_CollapseAllButton"
+                    Content="&#xF165;"
+                    FontSize="14"
+                    Padding="{StaticResource SmallLeftRightMargin}"
+                    VerticalAlignment="Stretch"
+                    VerticalContentAlignment="Center"
+                    FontFamily="Segoe MDL2 Assets"
+                    Command="{Binding ElementName=collapseBehavior, Path=CollapseAllCommand}"
+                    Background="Transparent" />
+            </Grid>
+            <winui:TreeView
+                x:Name="treeView"
+                Grid.Row="1"
+                SelectionMode="Single"
+                ItemsSource="{x:Bind ViewModel.SampleItems}"
+                ItemTemplateSelector="{StaticResource TreeViewTemplateSelector}">
+                <i:Interaction.Behaviors>
+                    <behaviors:TreeViewCollapseBehavior x:Name="collapseBehavior" />
+                    <ic:EventTriggerBehavior EventName="ItemInvoked">
+                        <ic:InvokeCommandAction Command="{x:Bind ViewModel.ItemInvokedCommand}" />
+                    </ic:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </winui:TreeView>
+        </Grid>
+
+        <ScrollViewer
+            Grid.Column="1"
+            Padding="{StaticResource DetailPageMargin}">
+            <ContentControl
+                Content="{x:Bind ViewModel.SelectedItem, Mode=OneWay}"
+                ContentTemplateSelector="{StaticResource ContentTemplateSelector}" />
+        </ScrollViewer>
+
+        <controls:GridSplitter
+            Grid.Column="1"
+            GripperCursor="Default"
+            HorizontalAlignment="Left"
+            ResizeDirection="Auto"
+            ResizeBehavior="BasedOnAlignment"
+            CursorBehavior="ChangeOnSplitterHover"
+            Width="16" />
+    </Grid>
+</Page>
