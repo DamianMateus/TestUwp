@@ -9,13 +9,11 @@ namespace TestUwp.Views
 {
     public sealed partial class TEXTPage : Page
     {
-        public TEXTViewModel ViewModel { get; } = new TEXTViewModel();
+        
 
         public TEXTPage()
         {
             this.InitializeComponent();
-            
-
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

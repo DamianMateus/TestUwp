@@ -7,8 +7,6 @@ using TestUwp.Models;
 
 namespace TestUwp.Services
 {
-    // This class holds sample data used by some generated pages to show how they can be used.
-    // TODO WTS: Delete this file once your app is using real data.
     public static class SampleDataService
     {
         private static IEnumerable<Assignature> AllAssignature()

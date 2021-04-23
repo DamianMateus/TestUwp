@@ -49,9 +49,7 @@ namespace TestUwp.Views
             for (uint i = 0; i < pdfDoc.PageCount; i++)
             {
                 BitmapImage image = new BitmapImage();
-
                 var page = pdfDoc.GetPage(i);
-
                 using (InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream())
                 {
                     await page.RenderToStreamAsync(stream);
